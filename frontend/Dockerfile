@@ -1,22 +1,19 @@
 FROM node:lts-alpine
 
-# install simple http server for serving static content
-RUN npm install -g http-server
-
-# make the 'app' folder the current working directory
+# Directorio de trabajo
 WORKDIR /app
 
-# copy both 'package.json' and 'package-lock.json' (if available)
+# Copiar package.json y package-lock.json primero para aprovechar la caché de Docker
 COPY package*.json ./
 
-# install project dependencies
+# Instalar dependencias
 RUN npm install
 
-# copy project files and folders to the current working directory (i.e. 'app' folder)
+# Copiar el resto del proyecto
 COPY . .
 
-# build app for production with minification
-RUN npm run build
+# Exponer el puerto de Vite en modo desarrollo
+EXPOSE 5173
 
-EXPOSE 8080
-CMD [ "http-server", "dist" ]
+# Levantar Vite en modo desarrollo accesible desde fuera del contenedor
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]

@@ -1,0 +1,51 @@
+{
+    "usuarios": [
+        {
+            "id": 1,
+            "nombre": "Administrador",
+            "email": "admin@academia.com",
+            "password": "admin123",
+            "rol": "admin"
+        }
+    ],
+    "categorias": [
+        {
+            "id": 1,
+            "nombre": "Informática",
+            "descripcion": "Categoría de tecnología e informática"
+        },
+        {
+            "id": 2,
+            "nombre": "Matemáticas",
+            "descripcion": "Categoría de ciencias matemáticas"
+        },
+        {
+            "id": 3,
+            "nombre": "Idiomas",
+            "descripcion": "Categoría de idiomas y lenguas extranjeras"
+        }
+    ],
+    "asignaturas": [
+        {
+            "id": 1,
+            "nombre": "Programación en Vue 3",
+            "descripcion": "Desarrollo de aplicaciones web con Vue 3 y TypeScript",
+            "categoriaId": 1,
+            "duracionHoras": 60
+        },
+        {
+            "id": 2,
+            "nombre": "Álgebra Lineal",
+            "descripcion": "Fundamentos de álgebra lineal y matrices",
+            "categoriaId": 2,
+            "duracionHoras": 45
+        },
+        {
+            "id": 3,
+            "nombre": "Inglés B2",
+            "descripcion": "Curso de inglés nivel intermedio-alto",
+            "categoriaId": 3,
+            "duracionHoras": 80
+        }
+    ]
+}
