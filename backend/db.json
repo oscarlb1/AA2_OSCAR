@@ -4,7 +4,7 @@
             "id": 1,
             "nombre": "Administrador",
             "email": "admin@academia.com",
-            "password": "admin123",
+            "password": "1234",
             "rol": "admin"
         }
     ],
