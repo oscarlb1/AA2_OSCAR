@@ -1,21 +1,15 @@
 <script setup lang="ts">
 import type { Asignatura } from '@/stores/asignaturasStore'
-import type { Categoria } from '@/stores/categoriasStore'
 
 const props = defineProps<{
   asignatura: Asignatura
-  categorias: Categoria[]
+  categoriaNombre: string
 }>()
 
 const emit = defineEmits<{
   editar: [asignatura: Asignatura]
   borrar: [id: number]
 }>()
-
-// Resuelve el nombre de la categoría a partir del categoriaId
-function nombreCategoria(categoriaId: number): string {
-  return props.categorias.find((c) => c.id === categoriaId)?.nombre ?? 'Sin categoría'
-}
 </script>
 
 <template>
@@ -30,7 +24,7 @@ function nombreCategoria(categoriaId: number): string {
       </p>
       <div class="d-flex gap-2 flex-wrap">
         <v-chip size="small" color="primary" variant="tonal" prepend-icon="mdi-tag-outline">
-          {{ nombreCategoria(props.asignatura.categoriaId) }}
+          {{ props.categoriaNombre }}
         </v-chip>
         <v-chip size="small" color="secondary" variant="tonal" prepend-icon="mdi-clock-outline">
           {{ props.asignatura.duracionHoras }}h

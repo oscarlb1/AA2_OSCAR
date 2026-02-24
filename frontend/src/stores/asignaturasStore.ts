@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export interface Asignatura {
-    id: number
+    id: string | number
     nombre: string
     descripcion: string
     categoriaId: number
@@ -37,7 +37,7 @@ export const useAsignaturasStore = defineStore('asignaturas', () => {
         asignaturas.value.push(nueva)
     }
 
-    async function actualizarAsignatura(id: number, datos: Omit<Asignatura, 'id'>): Promise<void> {
+    async function actualizarAsignatura(id: string | number, datos: Omit<Asignatura, 'id'>): Promise<void> {
         const response = await fetch(`${API_URL}/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -45,14 +45,14 @@ export const useAsignaturasStore = defineStore('asignaturas', () => {
         })
         if (!response.ok) throw new Error('Error al actualizar la asignatura')
         const actualizada: Asignatura = await response.json()
-        const index = asignaturas.value.findIndex((a) => a.id === id)
+        const index = asignaturas.value.findIndex((a) => Number(a.id) === Number(id))
         if (index !== -1) asignaturas.value[index] = actualizada
     }
 
-    async function borrarAsignatura(id: number): Promise<void> {
+    async function borrarAsignatura(id: string | number): Promise<void> {
         const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' })
         if (!response.ok) throw new Error('Error al borrar la asignatura')
-        asignaturas.value = asignaturas.value.filter((a) => a.id !== id)
+        asignaturas.value = asignaturas.value.filter((a) => Number(a.id) !== Number(id))
     }
 
     return {

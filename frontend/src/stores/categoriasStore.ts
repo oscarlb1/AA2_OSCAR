@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export interface Categoria {
-    id: number
+    id: string | number
     nombre: string
     descripcion: string
 }
@@ -43,14 +43,14 @@ export const useCategoriasStore = defineStore('categorias', () => {
         })
         if (!response.ok) throw new Error('Error al actualizar la categoría')
         const actualizada: Categoria = await response.json()
-        const index = categorias.value.findIndex((c) => c.id === id)
+        const index = categorias.value.findIndex((c) => Number(c.id) === Number(id))
         if (index !== -1) categorias.value[index] = actualizada
     }
 
     async function borrarCategoria(id: number): Promise<void> {
         const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' })
         if (!response.ok) throw new Error('Error al borrar la categoría')
-        categorias.value = categorias.value.filter((c) => c.id !== id)
+        categorias.value = categorias.value.filter((c) => Number(c.id) !== Number(id))
     }
 
     return {

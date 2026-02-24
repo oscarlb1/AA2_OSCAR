@@ -11,10 +11,13 @@ const asignaturasStore = useAsignaturasStore()
 const categoriasStore = useCategoriasStore()
 const uiStore = useUiStore()
 
+// ── Estado de carga local (espera ambas peticiones) ─────────────────────────
+const isLoading = ref(true)
+
 // ── Diálogo ───────────────────────────────────────────────────────────────────
 const dialogVisible = ref(false)
 const modoEdicion = ref(false)
-const asignaturaEditandoId = ref<number | null>(null)
+const asignaturaEditandoId = ref<string | number | null>(null)
 
 // ── Validación con vee-validate + yup ─────────────────────────────────────────
 const schema = yup.object({
@@ -90,9 +93,19 @@ async function borrarAsignatura(id: number) {
   }
 }
 
+// ── Resolución de nombre de categoría ─────────────────────────────────────────
+function getCategoriaNombre(categoriaId: number): string {
+  // json-server v1 devuelve los IDs como strings; normalizamos con Number() para comparar
+  return (
+    categoriasStore.categorias.find((c) => Number(c.id) === Number(categoriaId))?.nombre ??
+    'Sin categoría'
+  )
+}
+
 // ── Montaje ────────────────────────────────────────────────────────────────────
 onMounted(async () => {
   await Promise.all([asignaturasStore.fetchAsignaturas(), categoriasStore.fetchCategorias()])
+  isLoading.value = false
 })
 </script>
 
@@ -107,7 +120,7 @@ onMounted(async () => {
     </div>
 
     <!-- Cargando -->
-    <div v-if="asignaturasStore.loading" class="d-flex justify-center py-12">
+    <div v-if="isLoading" class="d-flex justify-center py-12">
       <v-progress-circular indeterminate color="primary" size="48" />
     </div>
 
@@ -130,7 +143,7 @@ onMounted(async () => {
       >
         <AsignaturaCard
           :asignatura="asignatura"
-          :categorias="categoriasStore.categorias"
+          :categoria-nombre="getCategoriaNombre(asignatura.categoriaId)"
           @editar="abrirEditar"
           @borrar="borrarAsignatura"
         />
