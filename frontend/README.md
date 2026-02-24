@@ -1,48 +1,22 @@
-# frontend
+# AA2 - Desarrollo Web en Entorno Cliente
 
-This template should help get you started developing with Vue 3 in Vite.
+Esta es la Actividad de Aprendizaje 2. El proyecto es una aplicación web para la gestión de una academia (Categorías y Asignaturas).
 
-## Recommended IDE Setup
+## 🚀 Cómo ejecutar el proyecto
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+El proyecto está contenerizado y consta de un Frontend y un Backend simulado (json-server). 
 
-## Recommended Browser Setup
+Para la corrección, la aplicación estará disponible al lanzar el siguiente comando en la raíz del proyecto:
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+`docker-compose build && docker compose up`
 
-## Type Support for `.vue` Imports in TS
+Una vez que los contenedores estén iniciados, podrás acceder a:
+- **Frontend (Aplicación):** http://localhost:5173
+- **Backend (API JSON):** http://localhost:3000
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## 🔐 Credenciales de acceso (Administrador)
 
-## Customize configuration
+Para evaluar la aplicación, utiliza las siguientes credenciales de prueba en la pantalla de Login:
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- **Email:** admin@academia.com
+- **Contraseña:** 1234
