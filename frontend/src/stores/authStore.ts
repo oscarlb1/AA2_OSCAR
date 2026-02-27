@@ -3,36 +3,51 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 interface User {
-    id: number
+    id: number | string
     nombre: string
     email: string
     rol: string
+    password?: string
 }
 
 export const useAuthStore = defineStore('auth', () => {
     const router = useRouter()
 
-    const isAuthenticated = ref<boolean>(false)
-    const user = ref<User | null>(null)
+    const storedUser = localStorage.getItem('user')
+    const isAuthenticated = ref<boolean>(!!storedUser)
+    const user = ref<User | null>(storedUser ? JSON.parse(storedUser) : null)
 
     async function login(email: string, password: string): Promise<void> {
-        const response = await fetch(
-            `http://localhost:3000/usuarios?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
-        )
+        // Log que llega desde el back
+        console.log("👉 1. Datos que llegan del formulario:", { 
+            email_recibido: email, 
+            password_recibida: password,
+            longitud_password: password.length 
+        })
 
-        if (!response.ok) {
-            throw new Error('Error de conexión con el servidor')
-        }
+        const response = await fetch('http://localhost:3000/usuarios')
+        if (!response.ok) throw new Error('Error de conexión con el servidor')
 
-        const results: User[] = await response.json()
+        const usuarios: User[] = await response.json()
+        
+        // Log de usuarios
+        console.log("👉 2. Usuarios en la base de datos:", usuarios)
 
-        if (results.length === 0) {
+        // Buscar usuario 
+        const loggedUser = usuarios.find(u => u.email === email && u.password === password)
+
+        // Resultados
+        console.log("👉 3. Resultado de la comparación:", loggedUser)
+
+        if (!loggedUser) {
+            console.error("❌ FALLO: No coinciden. Revisa si hay espacios extra en el paso 1 o paso 2.")
             throw new Error('Credenciales incorrectas')
         }
 
-        const loggedUser = results[0]!
+        console.log("✅ ÉXITO: Usuario encontrado. Redirigiendo...")
         isAuthenticated.value = true
         user.value = loggedUser
+        localStorage.setItem('user', JSON.stringify(loggedUser))
 
         await router.push('/admin/dashboard')
     }
@@ -40,6 +55,7 @@ export const useAuthStore = defineStore('auth', () => {
     function logout(): void {
         isAuthenticated.value = false
         user.value = null
+        localStorage.removeItem('user')
         router.push('/login')
     }
 
