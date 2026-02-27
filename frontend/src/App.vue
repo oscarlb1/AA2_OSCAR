@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import { useTheme } from 'vuetify'
 import { useUiStore } from '@/stores/uiStore'
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import MainLayout from '@/layouts/MainLayout.vue'
@@ -18,6 +19,11 @@ const layouts: Record<string, typeof AuthLayout> = {
 const layout = computed(() => {
   const layoutName = (route.meta?.layout as string) ?? 'MainLayout'
   return layouts[layoutName] ?? MainLayout
+})
+
+const theme = useTheme()
+watchEffect(() => {
+  theme.global.name.value = uiStore.isDarkTheme ? 'dark' : 'light'
 })
 </script>
 

@@ -24,8 +24,17 @@ export const useUiStore = defineStore('ui', () => {
         }
     }
 
+    const isDarkTheme = ref<boolean>(localStorage.getItem('theme') === 'dark')
+
+    function toggleTheme() {
+        isDarkTheme.value = !isDarkTheme.value
+        localStorage.setItem('theme', isDarkTheme.value ? 'dark' : 'light')
+    }
+
     return {
         snackbar,
         showSnackbar,
+        isDarkTheme,
+        toggleTheme,
     }
 })
