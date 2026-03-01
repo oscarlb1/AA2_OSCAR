@@ -11,6 +11,10 @@ export interface Asignatura {
 
 const API_URL = 'http://localhost:3000/asignaturas'
 
+/**
+ * Gestiona el listado y operaciones CRUD de las Asignaturas.
+ * Es responsable de comunicarse con la API de db.json para sincronizar los datos de asignaturas.
+ */
 export const useAsignaturasStore = defineStore('asignaturas', () => {
     const asignaturas = ref<Asignatura[]>([])
     const loading = ref<boolean>(false)

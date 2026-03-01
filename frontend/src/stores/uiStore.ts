@@ -9,6 +9,10 @@ interface SnackbarState {
     color: SnackbarColor
 }
 
+/**
+ * Controla el estado general de la interfaz de usuario (UI).
+ * Gestiona las notificaciones emergentes (snackbars) y el tema claro/oscuro.
+ */
 export const useUiStore = defineStore('ui', () => {
     const snackbar = ref<SnackbarState>({
         visible: false,

@@ -11,15 +11,15 @@ const asignaturasStore = useAsignaturasStore()
 const categoriasStore = useCategoriasStore()
 const uiStore = useUiStore()
 
-// ── Estado de carga local (espera ambas peticiones) ─────────────────────────
+// Estado de carga local
 const isLoading = ref(true)
 
-// ── Diálogo ───────────────────────────────────────────────────────────────────
+// Variables del diálogo de creación/edición
 const dialogVisible = ref(false)
 const modoEdicion = ref(false)
-const asignaturaEditandoId = ref<string | number | null>(null)
+const asignaturaEditandoId = ref<number | null>(null)
 
-// ── Validación con vee-validate + yup ─────────────────────────────────────────
+// Esquema de validación del formulario
 const schema = yup.object({
   nombre: yup.string().required('El nombre es obligatorio'),
   descripcion: yup.string().default(''),
@@ -37,7 +37,7 @@ const { value: descripcion } = useField<string>('descripcion')
 const { value: categoriaId, errorMessage: categoriaError } = useField<number>('categoriaId')
 const { value: duracionHoras, errorMessage: duracionError } = useField<number>('duracionHoras')
 
-// ── Abrir diálogo ──────────────────────────────────────────────────────────────
+// Funciones para abrir el diálogo en modo crear o editar
 function abrirCrear() {
   modoEdicion.value = false
   asignaturaEditandoId.value = null
@@ -47,7 +47,7 @@ function abrirCrear() {
 
 function abrirEditar(asignatura: Asignatura) {
   modoEdicion.value = true
-  asignaturaEditandoId.value = asignatura.id
+  asignaturaEditandoId.value = Number(asignatura.id)
   resetForm({
     values: {
       nombre: asignatura.nombre,
@@ -59,7 +59,7 @@ function abrirEditar(asignatura: Asignatura) {
   dialogVisible.value = true
 }
 
-// ── Submit ─────────────────────────────────────────────────────────────────────
+// Manejador del envío del formulario (Crear / Actualizar)
 const onSubmit = handleSubmit(async (values) => {
   try {
     const datos = {
@@ -82,7 +82,7 @@ const onSubmit = handleSubmit(async (values) => {
   }
 })
 
-// ── Borrar ─────────────────────────────────────────────────────────────────────
+// Función para eliminar asignatura
 async function borrarAsignatura(id: number) {
   try {
     await asignaturasStore.borrarAsignatura(id)
@@ -93,7 +93,7 @@ async function borrarAsignatura(id: number) {
   }
 }
 
-// ── Resolución de nombre de categoría ─────────────────────────────────────────
+// Obtiene el nombre de la categoría por su ID
 function getCategoriaNombre(categoriaId: number): string {
   // json-server v1 devuelve los IDs como strings; normalizamos con Number() para comparar
   return (
@@ -102,7 +102,7 @@ function getCategoriaNombre(categoriaId: number): string {
   )
 }
 
-// ── Montaje ────────────────────────────────────────────────────────────────────
+// Carga inicial de datos al montar el componente
 onMounted(async () => {
   await Promise.all([asignaturasStore.fetchAsignaturas(), categoriasStore.fetchCategorias()])
   isLoading.value = false

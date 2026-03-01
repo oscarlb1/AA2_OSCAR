@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   editar: [categoria: Categoria]
-  borrar: [id: number | string]
+  borrar: [id: number]
 }>()
 </script>
 
@@ -41,7 +41,7 @@ const emit = defineEmits<{
         color="error"
         prepend-icon="mdi-delete"
         size="small"
-        @click="emit('borrar', props.categoria.id)"
+        @click="emit('borrar', Number(props.categoria.id))"
       >
         Borrar
       </v-btn>

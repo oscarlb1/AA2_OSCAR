@@ -9,6 +9,10 @@ export interface Categoria {
 
 const API_URL = 'http://localhost:3000/categorias'
 
+/**
+ * Gestiona el listado y operaciones CRUD de las Categorías.
+ * Es responsable de comunicarse con la API de db.json para obtener, crear, modificar y borrar categorías.
+ */
 export const useCategoriasStore = defineStore('categorias', () => {
     const categorias = ref<Categoria[]>([])
     const loading = ref<boolean>(false)

@@ -1,7 +1,7 @@
 FROM node:lts-alpine
 
-# Instalar json-server globalmente
-RUN npm install -g json-server
+# Instalar json-server globalmente (versión 0.17.4 para mantener IDs numéricos)
+RUN npm install -g json-server@0.17.4
 
 # Directorio de trabajo
 WORKDIR /app

@@ -10,6 +10,10 @@ interface User {
     password?: string
 }
 
+/**
+ * Gestiona el estado de la sesión del usuario.
+ * Controla quién está logueado, su rol (admin/editor) y protege las rutas.
+ */
 export const useAuthStore = defineStore('auth', () => {
     const router = useRouter()
 
@@ -18,33 +22,19 @@ export const useAuthStore = defineStore('auth', () => {
     const user = ref<User | null>(storedUser ? JSON.parse(storedUser) : null)
 
     async function login(email: string, password: string): Promise<void> {
-        // Log que llega desde el back
-        console.log("👉 1. Datos que llegan del formulario:", { 
-            email_recibido: email, 
-            password_recibida: password,
-            longitud_password: password.length 
-        })
-
         const response = await fetch('http://localhost:3000/usuarios')
         if (!response.ok) throw new Error('Error de conexión con el servidor')
 
         const usuarios: User[] = await response.json()
-        
-        // Log de usuarios
-        console.log("👉 2. Usuarios en la base de datos:", usuarios)
 
-        // Buscar usuario 
+        // Comprueba si existe un usuario con esas credenciales
         const loggedUser = usuarios.find(u => u.email === email && u.password === password)
 
-        // Resultados
-        console.log("👉 3. Resultado de la comparación:", loggedUser)
-
         if (!loggedUser) {
-            console.error("❌ FALLO: No coinciden. Revisa si hay espacios extra en el paso 1 o paso 2.")
             throw new Error('Credenciales incorrectas')
         }
 
-        console.log("✅ ÉXITO: Usuario encontrado. Redirigiendo...")
+        // Guarda la sesión
         isAuthenticated.value = true
         user.value = loggedUser
         localStorage.setItem('user', JSON.stringify(loggedUser))

@@ -9,12 +9,12 @@ import CategoriaCard from '@/components/CategoriaCard.vue'
 const categoriasStore = useCategoriasStore()
 const uiStore = useUiStore()
 
-// ── Diálogo ──────────────────────────────────────────────────────────────────
+// Variables del diálogo de creación/edición
 const dialogVisible = ref(false)
 const modoEdicion = ref(false)
 const categoriaEditandoId = ref<number | null>(null)
 
-// ── Validación con vee-validate + yup ────────────────────────────────────────
+// Esquema de validación del formulario
 const schema = yup.object({
   nombre: yup.string().required('El nombre es obligatorio'),
   descripcion: yup.string().default(''),
@@ -24,7 +24,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({ validationSchema: sc
 const { value: nombre, errorMessage: nombreError } = useField<string>('nombre')
 const { value: descripcion } = useField<string>('descripcion')
 
-// ── Abrir diálogo ─────────────────────────────────────────────────────────────
+// Funciones para abrir el diálogo en modo crear o editar
 function abrirCrear() {
   modoEdicion.value = false
   categoriaEditandoId.value = null
@@ -34,12 +34,12 @@ function abrirCrear() {
 
 function abrirEditar(categoria: Categoria) {
   modoEdicion.value = true
-  categoriaEditandoId.value = categoria.id
+  categoriaEditandoId.value = Number(categoria.id)
   resetForm({ values: { nombre: categoria.nombre, descripcion: categoria.descripcion } })
   dialogVisible.value = true
 }
 
-// ── Submit ────────────────────────────────────────────────────────────────────
+// Manejador del envío del formulario (Crear / Actualizar)
 const onSubmit = handleSubmit(async (values) => {
   try {
     const datos = { nombre: values.nombre, descripcion: values.descripcion ?? '' }
@@ -57,7 +57,7 @@ const onSubmit = handleSubmit(async (values) => {
   }
 })
 
-// ── Borrar ────────────────────────────────────────────────────────────────────
+// Función para eliminar categoría
 async function borrarCategoria(id: number) {
   try {
     await categoriasStore.borrarCategoria(id)
@@ -68,7 +68,7 @@ async function borrarCategoria(id: number) {
   }
 }
 
-// ── Montaje ───────────────────────────────────────────────────────────────────
+// Carga inicial de datos al montar el componente
 onMounted(() => {
   categoriasStore.fetchCategorias()
 })
