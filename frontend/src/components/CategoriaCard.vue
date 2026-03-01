@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { Categoria } from '@/stores/categoriasStore'
+import { useAuthStore } from '@/stores/authStore'
+
+const authStore = useAuthStore()
 
 const props = defineProps<{
   categoria: Categoria
@@ -7,7 +10,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   editar: [categoria: Categoria]
-  borrar: [id: number]
+  borrar: [id: number | string]
 }>()
 </script>
 
@@ -33,6 +36,7 @@ const emit = defineEmits<{
         Editar
       </v-btn>
       <v-btn
+        v-if="authStore.user?.rol === 'admin'"
         variant="tonal"
         color="error"
         prepend-icon="mdi-delete"

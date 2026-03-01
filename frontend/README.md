@@ -18,5 +18,5 @@ Una vez que los contenedores estén iniciados, podrás acceder a:
 
 Para evaluar la aplicación, utiliza las siguientes credenciales de prueba en la pantalla de Login:
 
-- **Email:** admin@academia.com
-- **Contraseña:** 1234
+- **Email:** admin@academia.com | editor@academia.com
+- **Contraseña:** 1234 | 1234

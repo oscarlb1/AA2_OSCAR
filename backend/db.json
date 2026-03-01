@@ -6,6 +6,13 @@
             "email": "admin@academia.com",
             "password": "1234",
             "rol": "admin"
+        },
+        {
+            "id": 2,
+            "nombre": "Editor",
+            "email": "editor@academia.com",
+            "password": "1234",
+            "rol": "editor"
         }
     ],
     "categorias": [
