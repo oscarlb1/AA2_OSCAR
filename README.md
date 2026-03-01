@@ -8,7 +8,8 @@ El proyecto está contenerizado y consta de un Frontend y un Backend simulado (j
 
 Para la corrección, la aplicación estará disponible al lanzar el siguiente comando en la raíz del proyecto:
 
-`docker-compose build && docker compose up`
+`docker-compose build`
+`docker compose up`
 
 Una vez que los contenedores estén iniciados, podrás acceder a:
 - **Frontend (Aplicación):** http://localhost:5173
@@ -18,5 +19,5 @@ Una vez que los contenedores estén iniciados, podrás acceder a:
 
 Para evaluar la aplicación, utiliza las siguientes credenciales de prueba en la pantalla de Login:
 
-- **Email:** admin@academia.com | editor@academia.com
-- **Contraseña:** 1234 | 1234
+- **Administrador:** `admin@academia.com` / Contraseña: `1234`
+- **Editor:** `editor@academia.com` / Contraseña: `1234`
